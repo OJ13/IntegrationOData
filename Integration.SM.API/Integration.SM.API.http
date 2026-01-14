@@ -1,0 +1,6 @@
+@Integration.SM.API_HostAddress = http://localhost:5064
+
+GET {{Integration.SM.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
