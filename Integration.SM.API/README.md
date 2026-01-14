@@ -2,8 +2,10 @@
 
 API de integração com SAP S/4HANA para gestão de Pedidos de Vendas (Sales Orders) e Itens de Pedidos (Sales Order Items).
 
-### OBSERVACAO
-Como é mockado temos 2 usuários em tempos de execução:
+### OBSERVACOES
+1) A Organização foi em pastas (Domain, Infra, Application), para celeridade o ideal eu faria cada camada um projeto.
+
+2) Como é mockado temos 2 usuários em tempos de execução:
 
 user: usuário senha: senha@123 (Autorizado GET)
 user: admin senha: senha@123 (Autorizado GET e POST)
