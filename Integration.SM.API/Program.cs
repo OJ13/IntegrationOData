@@ -12,6 +12,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOptions<AppSettings>()
     .Bind(builder.Configuration.GetSection(AppSettings.Config));
 
+# region Dependency Injection
+
+builder.Services.AddScoped<Integration.SM.API.Domain.Services.ISalesOrderService, Integration.SM.API.Infra.External.IntegrationSalesOrderService>();
+builder.Services.AddScoped<Integration.SM.API.Application.Services.ISalesOrderService, Integration.SM.API.Application.Services.SalesOrderService>();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);    
+
+#endregion
+
+# region Swagger Configuration
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -46,6 +56,9 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+#endregion
+
+#region  Configuration JWT
 
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -79,7 +92,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("admin", policy => policy.RequireRole("admin"));
     options.AddPolicy("user", policy => policy.RequireRole("user"));
 });
- 
+
+#endregion
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -90,10 +105,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+#region  Endpoints
 // Autenticacao - MOCK
 app.MapAuthEndpoint(config);
 
 // Endpoints de Integração
 app.MapSMIntegrationEndpoint();
+
+#endregion
 
 app.Run();
